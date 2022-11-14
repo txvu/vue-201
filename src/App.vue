@@ -20,7 +20,7 @@ export default {
   // },
   data() {
     return {
-        tasks: []
+      tasks: []
     }
   },
   created() {
@@ -53,14 +53,17 @@ export default {
 }
 
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400&display=swap');
+
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
+
 body {
   font-family: 'Poppins', sans-serif;
 }
+
 .container {
   max-width: 500px;
   margin: 30px auto;
@@ -70,6 +73,7 @@ body {
   padding: 30px;
   border-radius: 5px;
 }
+
 .btn {
   display: inline-block;
   background: #000;
@@ -83,12 +87,15 @@ body {
   font-size: 15px;
   font-family: inherit;
 }
+
 .btn:focus {
   outline: none;
 }
+
 .btn:active {
   transform: scale(0.98);
 }
+
 .btn-block {
   display: block;
   width: 100%;

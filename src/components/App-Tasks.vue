@@ -5,14 +5,14 @@
 </template>
 
 <script>
-    import Task from './App-Task.vue'
-    export default {
-        name: 'App-Tasks',
-        props: {
-            tasks: Array
-        },
-        components: {
-            Task,
-        }
+import Task from './App-Task.vue'
+export default {
+    name: 'App-Tasks',
+    props: {
+        tasks: Array
+    },
+    components: {
+        Task,
+    }
 }
 </script>
