@@ -30,8 +30,16 @@ export default {
     }
   },
   methods: {
-    addTask(task) {
-      this.tasks = [...this.tasks, task]
+    async addTask(task) {
+      const res = await fetch('api/tasks', {
+        method: 'POST',
+        headers: {'Content-type': 'application/json'},
+        body: JSON.stringify(task)
+      })
+
+      const data = await res.json()
+
+      this.tasks = [...this.tasks, data]
     },
     deleteTask(id) {
       console.log('task', id)
@@ -45,29 +53,42 @@ export default {
     },
     toggleAddTask() {
       this.showAddTask = !this.showAddTask
+    },
+    async fetchTasks() {
+      const res = await fetch(`api/tasks`)
+      const data = await res.json()
+
+      return data
+    },
+    async fetchTask(id) {
+      const res = await fetch(`api/${id}`)
+      const data = await res.json()
+
+      return data
     }
   },
-  created() {
-    this.tasks = [
-      {
-        id: 1,
-        text: 'Doctors Appointment',
-        day: 'March 1st at 2:30pm',
-        reminder: true,
-      },
-      {
-        id: 2,
-        text: 'Dental Appointment',
-        day: 'March 5st at 9:00am',
-        reminder: false,
-      },
-      {
-        id:3,
-        text: 'Appointment',
-        day: 'March 5st at 9:00am',
-        reminder: true,
-      },
-    ]
+  async created() {
+    // this.tasks = [
+    //   {
+    //     id: 1,
+    //     text: 'Doctors Appointment',
+    //     day: 'March 1st at 2:30pm',
+    //     reminder: true,
+    //   },
+    //   {
+    //     id: 2,
+    //     text: 'Dental Appointment',
+    //     day: 'March 5st at 9:00am',
+    //     reminder: false,
+    //   },
+    //   {
+    //     id:3,
+    //     text: 'Appointment',
+    //     day: 'March 5st at 9:00am',
+    //     reminder: true,
+    //   },
+    // ]
+    this.tasks = await this.fetchTasks()
   }
 }
 </script>
