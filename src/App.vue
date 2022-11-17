@@ -1,8 +1,8 @@
 <template>
   <div class="container">
     <Header @toggle-add-task="toggleAddTask" title="Task Tracker" :showAddTask="showAddTask"></Header>
-    <div v-if="showAddTask">      
-      <AddTask @add-task="addTask"/>
+    <div v-if="showAddTask">
+      <AddTask @add-task="addTask" />
     </div>
     <Tasks @toggle-reminder="toggleReminder" @delete-task="deleteTask" v-bind:tasks="tasks" />
   </div>
@@ -33,7 +33,7 @@ export default {
     async addTask(task) {
       const res = await fetch('api/tasks', {
         method: 'POST',
-        headers: {'Content-type': 'application/json'},
+        headers: { 'Content-type': 'application/json' },
         body: JSON.stringify(task)
       })
 
@@ -41,15 +41,22 @@ export default {
 
       this.tasks = [...this.tasks, data]
     },
-    deleteTask(id) {
+    async deleteTask(id) {
       console.log('task', id)
+
       if (confirm('Are you sure?')) {
-        this.tasks = this.tasks.filter((task) => task.id !== id)
+        const res = await fetch(`api/tasks/${id}`, {
+          method: 'DELETE',
+        })
+
+        res.status === 200 ? (this.tasks = this.tasks.filter((task) => task.id !== id)) : alert('Error deleting task')
+
+
       }
     },
     toggleReminder(id) {
       console.log('Toggle reminder #', id);
-      this.tasks = this.tasks.map((task) => task.id === id ? {...task, reminder: !task.reminder} : task)
+      this.tasks = this.tasks.map((task) => task.id === id ? { ...task, reminder: !task.reminder } : task)
     },
     toggleAddTask() {
       this.showAddTask = !this.showAddTask
