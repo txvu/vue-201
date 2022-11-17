@@ -5,11 +5,13 @@
       <AddTask @add-task="addTask" />
     </div>
     <Tasks @toggle-reminder="toggleReminder" @delete-task="deleteTask" v-bind:tasks="tasks" />
+    <Footer />
   </div>
 </template>
 
 <script>
 import Header from './components/App-Header.vue'
+import Footer from './components/App-Footer.vue'
 import Tasks from './components/App-Tasks.vue'
 import AddTask from './components/App-AddTask.vue'
 
@@ -17,6 +19,7 @@ export default {
   name: 'App',
   components: {
     Header,
+    Footer,
     Tasks,
     AddTask,
   },
@@ -54,9 +57,22 @@ export default {
 
       }
     },
-    toggleReminder(id) {
+    async toggleReminder(id) {
       console.log('Toggle reminder #', id);
-      this.tasks = this.tasks.map((task) => task.id === id ? { ...task, reminder: !task.reminder } : task)
+      const taskToToggle = await this.fetchTask(id)
+      const updateTask = {...taskToToggle, reminder: !taskToToggle.reminder}
+
+      console.log(updateTask)
+
+      const res = await fetch(`api/tasks/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-type': 'application/json' },
+        body: JSON.stringify(updateTask)
+      })
+
+      const data = await res.json()
+
+      this.tasks = this.tasks.map((task) => task.id === id ? { ...task, reminder: data.reminder } : task)
     },
     toggleAddTask() {
       this.showAddTask = !this.showAddTask
