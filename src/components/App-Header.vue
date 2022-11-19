@@ -1,9 +1,11 @@
 <template>
     <header>
         <h1>{{ title }}</h1>
-        <Button @btn-click="$emit('toggle-add-task')" 
-        :text="showAddTask ? 'Close' : 'Add Task'" 
-        :color="showAddTask ? 'red' : 'green'"></Button>
+        <Button 
+        
+        @btn-click="$emit('toggle-add-task')" :text="showAddTask ? 'Close' : 'Add Task'"
+            :color="showAddTask ? 'red' : 'green'">
+        </Button>
     </header>
 </template>
 
@@ -15,12 +17,21 @@ export default {
         title: {
             type: String,
             default: 'Hello World',
-            
+
         },
         showAddTask: Boolean,
     },
     components: {
         Button
+    },
+    computed: {
+        homePage() {
+            if (this.$router.path === '/') {
+                return true
+            } else {
+                return false
+            }
+        }
     }
 }
 </script>
